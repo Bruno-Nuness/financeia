@@ -13,17 +13,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Transaction {
-  id String @id @default(uuid())
-  name String
-  type TransactionType
-  amount Decimal @db.Decimal(10,2)
-  category TransationCategory
+  id            String                  @id @default(uuid())
+  name          String
+  type          TransactionType
+  amount        Decimal                 @db.Decimal(10, 2)
+  category      TransationCategory
   paymentMethod TransationPaymentMethod
-  date DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  date          DateTime
+  createdAt     DateTime                @default(now())
+  updatedAt     DateTime                @updatedAt
+  userId        String
 }
 
 enum TransactionType {
