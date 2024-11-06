@@ -1,5 +1,5 @@
-const Transation = ()=>{
-    return <h1>Transation</h1>
+const Transations = ()=>{
+    return <h1>Transations</h1>
 }
 
-export default Transation
+export default Transations
