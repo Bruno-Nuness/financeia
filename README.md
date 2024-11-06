@@ -38,3 +38,12 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 Dependences:
 
 $ npm install prisma@5.12.1
+instalando depois o plugin prettier do tailwind
+https://tailwindcss.com/blog/automatic-class-sorting-with-prettier
+usando o neon tech de DB
+
+usando tambem o 
+https://ui.shadcn.com/
+
+$ npx shadcn@2.1.3 init
+
