@@ -46,4 +46,11 @@ usando tambem o
 https://ui.shadcn.com/
 
 $ npx shadcn@2.1.3 init
+$ npm install @clerk/themes   para colocar o dark theme no clerk
 
+$ npm install -D husky@9.1.6
+$ npm install -D lint-staged@12.3.2
+$ npx husky init
+
+$ npm install git-commit-msg-linter@5.0.8
+npx husky add .husky/commit-msg ".git/hooks/commit-msg \$1"
