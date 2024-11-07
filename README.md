@@ -54,3 +54,7 @@ $ npx husky init
 
 $ npm install git-commit-msg-linter@5.0.8
 npx husky add .husky/commit-msg ".git/hooks/commit-msg \$1"
+
+
+$ npm install @prisma/client@5.21.1  
+ npx shadcn@2.1.3 add badge
