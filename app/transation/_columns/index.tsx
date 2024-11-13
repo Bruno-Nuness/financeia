@@ -5,21 +5,10 @@ import { ColumnDef } from "@tanstack/react-table";
 import TransactionTypeBadge from "../_components/type-badge";
 import { Button } from "@/app/_components/ui/button";
 import { PencilIcon, TrashIcon } from "lucide-react";
+import { TRANSACTION_CATEGORY_LABELS } from "@/app/_constants/transaction";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-
-export const TRANSACTION_CATEGORY_LABELS = {
-  EDUCATION: "Educação",
-  ENTERTAINEMENT: "Entretenimento",
-  FOOD: "Alimentação",
-  HEALTH: "Saúde",
-  HOUSING: "Habitação",
-  OTHER: "Outros",
-  SALARY: "Salário",
-  TRANSPORTATION: "Transaporte",
-  UTILITY: "Utilidades",
-};
 
 export const transactinsColumns: ColumnDef<Transaction>[] = [
   {

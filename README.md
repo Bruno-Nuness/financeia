@@ -58,3 +58,6 @@ npx husky add .husky/commit-msg ".git/hooks/commit-msg \$1"
 
 $ npm install @prisma/client@5.21.1  
  npx shadcn@2.1.3 add badge
+
+
+para instalar o date picker do shadcn foi necessario isntalar tvm o popover e do calendar
