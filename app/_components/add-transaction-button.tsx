@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -38,21 +39,27 @@ import {
 import {
   TRANSACTION_CATEGORY_OPTIONS,
   TRANSACTION_PAYMENT_METHOD_OPTIONS,
+  TRANSACTION_TYPE_OPTIONS,
 } from "../_constants/transaction";
 import { DatePicker } from "./ui/date-picker";
+import { addTransaction } from "../_actions/add-transactions";
 
 const formSchema = z.object({
   name: z.string().trim().min(1, {
     message: "O nome é obrigatório.",
   }),
-  amount: z.string().trim().min(1, {
-    message: "O nome é obrigatório.",
-  }),
+  amount: z
+    .number({
+      required_error: "O valor é obrigátorio.",
+    })
+    .positive({
+      message: "O valor deve ser positivo.",
+    }),
   type: z.nativeEnum(TransactionType, {
     required_error: "A categoria é obrigatória.",
   }),
-  category: z.nativeEnum(TransationPaymentMethod, {
-    required_error: "O método de pagamento é obrigatório.",
+  category: z.nativeEnum(TransationCategory, {
+    required_error: "A categoria é obrigatória.",
   }),
   paymentMethod: z.nativeEnum(TransationPaymentMethod, {
     required_error: "O método de pagamento é obrigatório.",
@@ -62,11 +69,15 @@ const formSchema = z.object({
   }),
 });
 
+type FormSchema = z.infer<typeof formSchema>;
+
 const AddTransactionButton = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const [dialogIsOpen, setDialogIsOpen] = useState(false);
+
+  const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      amount: "",
+      amount: 10,
       category: TransationCategory.OTHER,
       date: new Date(),
       name: "",
@@ -75,11 +86,21 @@ const AddTransactionButton = () => {
     },
   });
 
-  const onSubmit = () => {};
+  const onSubmit = async (data: FormSchema) => {
+    try {
+      await addTransaction(data);
+      setDialogIsOpen(false);
+      form.reset();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Dialog
+      open={dialogIsOpen}
       onOpenChange={(open) => {
+        setDialogIsOpen(open);
         if (!open) {
           form.reset();
         }
@@ -104,7 +125,10 @@ const AddTransactionButton = () => {
                 <FormItem>
                   <FormLabel>Nome</FormLabel>
                   <FormControl>
-                    <Input placeholder="Digite o valor" {...field} />
+                    <Input
+                      placeholder="Digite o nome da transação"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -117,7 +141,15 @@ const AddTransactionButton = () => {
                 <FormItem>
                   <FormLabel>Valor</FormLabel>
                   <FormControl>
-                    <MoneyInput placeholder="Digite o valor" {...field} />
+                    <MoneyInput
+                      placeholder="Digite o valor"
+                      value={field.value}
+                      onValueChange={({ floatValue }) =>
+                        field.onChange(floatValue)
+                      }
+                      onBlur={field.onBlur}
+                      disabled={field.disabled}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -139,7 +171,7 @@ const AddTransactionButton = () => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {TRANSACTION_CATEGORY_OPTIONS.map((option) => (
+                      {TRANSACTION_TYPE_OPTIONS.map((option) => (
                         <SelectItem key={option.value} value={option.value}>
                           {option.label}
                         </SelectItem>
@@ -222,12 +254,11 @@ const AddTransactionButton = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
             <DialogFooter>
               <DialogClose asChild>
                 <Button variant="outline">Cancelar</Button>
               </DialogClose>
-              <Button>Adicionar</Button>
+              <Button type="submit">Adicionar</Button>
             </DialogFooter>
           </form>
         </Form>
